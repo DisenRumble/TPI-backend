@@ -1,4 +1,4 @@
-package backend.grupo130.gateway.beans;
+package backend.grupo73.gateway.beans;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

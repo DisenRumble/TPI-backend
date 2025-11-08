@@ -1,4 +1,4 @@
-package backend.grupo130.gateway.config.exceptions;
+package backend.grupo73.gateway.config.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

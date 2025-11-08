@@ -6,20 +6,27 @@ spring:
         oauth2:
             resourceserver:
                 jwt:
-                    issuer-uri: http://localhost:8081/realms/TPI-Backend
+                    issuer-uri: http://localhost:8081/realms/TPI-backend
             client:
                 provider:
                     keycloak:
-                        token-uri: http://localhost:8081/realms/TPI-Backend/protocol/openid-connect/token
+                        issuer-uri: http://localhost:8081/realms/TPI-backend
                 registration:
                     keycloak:
-                        client-id: tpi-backend-client
+                        client-id: TPI-backend-client
                         authorization-grant-type: authorization_code
-                        redirect-uri: "{baseUrl}/gateway/login/oauth2/code/keycloak"
+                        # Usamos la URI de redirección por defecto que Spring Security espera.
+                        redirect-uri: "{baseUrl}/login/oauth2/code/keycloak"
+                        scope: openid, profile, email
 
     cloud:
         gateway:
             routes:
+                - id: whoami-local
+                  uri: no://op
+                  predicates:
+                      - Path=/gateway/whoami
+
                 - id: ms-usuarios
                   uri: http://localhost:8090
                   predicates:
@@ -34,3 +41,4 @@ server:
 logging:
     level:
         org.springframework.cloud.gateway: DEBUG
+        org.springframework.security: DEBUG
