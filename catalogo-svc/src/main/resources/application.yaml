@@ -1,25 +1,64 @@
+server:
+  port: 8085
+  servlet:
+    context-path: /catalogo
+  tomcat:
+    accesslog:
+      enabled: true
+      pattern: "%h %l %u %t \"%r\" %s %b %D"
+  # Si hay proxy/gateway delante, conserva cabeceras X-Forwarded-* correctamente
+  forward-headers-strategy: framework
+
 spring:
-  application:
-    name: catalogo-svc
   datasource:
-    url: jdbc:postgresql://localhost:5433/catalogo_db
-    username: user
-    password: password
-    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5435/catalogdb
+    username: catalog
+    password: catalog
+    hikari:
+      data-source-properties:
+        # ✅ Forma correcta en PG JDBC: ejecuta "SET TimeZone='UTC'" al abrir conexión
+        options: -c TimeZone=UTC
+
+  # Fuerza todo el stack a UTC (ORM + serialización JSON)
   jpa:
     hibernate:
-      ddl-auto: validate # Dejamos que Flyway maneje el esquema
-    show-sql: true
+      ddl-auto: validate
+    open-in-view: false
     properties:
-      hibernate:
-        format_sql: true
+      hibernate.format_sql: true
+      hibernate.jdbc.time_zone: UTC
+
+  jackson:
+    time-zone: UTC
+
   flyway:
     enabled: true
-    baseline-on-migrate: true # Crea la tabla de metadatos de Flyway si no existe
+    locations: classpath:db/migration
 
-server:
-  port: 8081
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8081/realms/TPI-backend
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true
 
 springdoc:
   swagger-ui:
-    path: /swagger-ui.html
+    path: /swagger
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web: DEBUG            # Mapea handlers y requests
+    org.springframework.security: INFO        # Mensajes de filtros de seguridad
+    org.hibernate.SQL: DEBUG                  # Sentencias SQL
+    org.hibernate.type.descriptor.sql: TRACE  # Parámetros de SQL (MUY verboso)
