@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface TarifaRepositoryI extends JpaRepository<TarifaModel, Long> {
+public interface TarifaRepositoryI extends JpaRepository<TarifaModel, String> {
     Optional<TarifaModel> findByVigente(boolean vigente);
 }

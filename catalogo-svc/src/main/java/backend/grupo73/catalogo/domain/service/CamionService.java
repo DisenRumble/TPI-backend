@@ -25,7 +25,7 @@ public class CamionService {
         return new CamionRes(model.getId(), model.getPatente(), model.getCapacidadPeso(), model.getCapacidadVolumen());
     }
 
-    public CamionRes update(Long id, CamionCreateReq request) {
+    public CamionRes update(String id, CamionCreateReq request) {
         CamionModel model = camionRepository.findById(id).orElseThrow();
         model.setPatente(request.getPatente());
         model.setCapacidadPeso(request.getCapacidadPeso());

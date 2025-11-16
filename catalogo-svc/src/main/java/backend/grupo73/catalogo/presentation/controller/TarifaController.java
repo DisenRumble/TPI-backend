@@ -20,7 +20,7 @@ public class TarifaController {
     }
 
     @PutMapping("/{tarifaId}")
-    public ResponseEntity<TarifaRes> update(@PathVariable Long tarifaId, @RequestBody TarifaCreateReq request) {
+    public ResponseEntity<TarifaRes> update(@PathVariable String tarifaId, @RequestBody TarifaCreateReq request) {
         return ResponseEntity.ok(tarifaService.update(tarifaId, request));
     }
 

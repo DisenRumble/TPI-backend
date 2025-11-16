@@ -24,7 +24,7 @@ public class DepositoService {
         return new DepositoRes(model.getId(), model.getName(), model.getAddress());
     }
 
-    public DepositoRes update(Long id, DepositoCreateReq request) {
+    public DepositoRes update(String id, DepositoCreateReq request) {
         DepositoModel model = depositoRepository.findById(id).orElseThrow();
         model.setName(request.getName());
         model.setAddress(request.getAddress());

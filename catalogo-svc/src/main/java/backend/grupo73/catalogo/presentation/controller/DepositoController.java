@@ -22,7 +22,7 @@ public class DepositoController {
     }
 
     @PutMapping("/{depositoId}")
-    public ResponseEntity<DepositoRes> update(@PathVariable Long depositoId, @RequestBody DepositoCreateReq request) {
+    public ResponseEntity<DepositoRes> update(@PathVariable String depositoId, @RequestBody DepositoCreateReq request) {
         return ResponseEntity.ok(depositoService.update(depositoId, request));
     }
 

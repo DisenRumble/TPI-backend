@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CamionRes {
-    private Long id;
+    private String id;
     private String patente;
     private double capacidadPeso;
     private double capacidadVolumen;

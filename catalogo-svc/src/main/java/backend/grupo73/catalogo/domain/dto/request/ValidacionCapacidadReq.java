@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ValidacionCapacidadReq {
-    private Long camionId;
+    private String camionId;
     private double pesoTotal;
     private double volumenTotal;
 }

@@ -22,7 +22,7 @@ public class CamionController {
     }
 
     @PutMapping("/{camionId}")
-    public ResponseEntity<CamionRes> update(@PathVariable Long camionId, @RequestBody CamionCreateReq request) {
+    public ResponseEntity<CamionRes> update(@PathVariable String camionId, @RequestBody CamionCreateReq request) {
         return ResponseEntity.ok(camionService.update(camionId, request));
     }
 

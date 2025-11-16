@@ -25,7 +25,7 @@ public class TarifaService {
         return new TarifaRes(model.getId(), model.getName(), model.getPrecio());
     }
 
-    public TarifaRes update(Long id, TarifaCreateReq request) {
+    public TarifaRes update(String id, TarifaCreateReq request) {
         TarifaModel model = tarifaRepository.findById(id).orElseThrow();
         model.setName(request.getName());
         model.setPrecio(request.getPrecio());
