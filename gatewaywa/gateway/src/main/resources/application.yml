@@ -6,11 +6,11 @@ spring:
         oauth2:
             resourceserver:
                 jwt:
-                    issuer-uri: http://localhost:8081/realms/TPI-Backend
+                    issuer-uri: ${KEYCLOAK_ISSUER_URI:http://keycloak:8080/realms/TPI-Backend}
             client:
                 provider:
                     keycloak:
-                        token-uri: http://localhost:8081/realms/TPI-Backend/protocol/openid-connect/token
+                        token-uri: ${KEYCLOAK_TOKEN_URI:http://keycloak:8080/realms/TPI-Backend/protocol/openid-connect/token}
                 registration:
                     keycloak:
                         client-id: tpi-backend-client
@@ -21,15 +21,99 @@ spring:
         gateway:
             routes:
                 - id: ms-usuarios
-                  uri: http://localhost:8090
+                  uri: ${server.uri.usuarios}
                   predicates:
                       - Path=/gateway/usuarios/**
                   filters:
                       - RewritePath=/gateway/usuarios/(?<segment>.*), /api/usuarios/${segment}
+                - id: ms-clientes
+                  uri: ${server.uri.solicitudes}
+                  predicates:
+                      - Path=/gateway/clientes/**
+                  filters:
+                      - RewritePath=/gateway/clientes/(?<segment>.*), /api/clientes/${segment}
+                - id: ms-solicitudes
+                  uri: ${server.uri.solicitudes}
+                  predicates:
+                      - Path=/gateway/solicitudes/**
+                  filters:
+                      - RewritePath=/gateway/solicitudes/(?<segment>.*), /api/solicitudes/${segment}
+                - id: ms-tarifas
+                  uri: ${server.uri.solicitudes}
+                  predicates:
+                      - Path=/gateway/tarifas/**
+                  filters:
+                      - RewritePath=/gateway/tarifas/(?<segment>.*), /api/tarifas/${segment}
+                - id: ms-contenedores
+                  uri: ${server.uri.contenedores}
+                  predicates:
+                      - Path=/gateway/contenedores/**
+                  filters:
+                      - RewritePath=/gateway/contenedores/(?<segment>.*), /api/contenedores/${segment}
+                - id: ms-transportistas
+                  uri: ${server.uri.camiones}
+                  predicates:
+                      - Path=/gateway/transportistas/**
+                  filters:
+                      - RewritePath=/gateway/transportistas/(?<segment>.*), /api/transportistas/${segment}
+                - id: ms-camiones
+                  uri: ${server.uri.camiones}
+                  predicates:
+                      - Path=/gateway/camiones/**
+                  filters:
+                      - RewritePath=/gateway/camiones/(?<segment>.*), /api/camiones/${segment}
+                - id: ms-ubicaciones
+                  uri: ${server.uri.ubicaciones}
+                  predicates:
+                      - Path=/gateway/ubicaciones/**
+                  filters:
+                      - RewritePath=/gateway/ubicaciones/(?<segment>.*), /api/ubicaciones/${segment}
+                - id: ms-localidades
+                  uri: ${server.uri.ubicaciones}
+                  predicates:
+                      - Path=/gateway/localidades/**
+                  filters:
+                      - RewritePath=/gateway/localidades/(?<segment>.*), /api/localidades/${segment}
+                - id: ms-geografia
+                  uri: ${server.uri.ubicaciones}
+                  predicates:
+                      - Path=/gateway/geografia/**
+                  filters:
+                      - RewritePath=/gateway/geografia/(?<segment>.*), /api/geografia/${segment}
+                - id: ms-depositos
+                  uri: ${server.uri.ubicaciones}
+                  predicates:
+                      - Path=/gateway/depositos/**
+                  filters:
+                      - RewritePath=/gateway/depositos/(?<segment>.*), /api/depositos/${segment}
+                - id: ms-catalogo-tramos
+                  uri: ${server.uri.tramos}
+                  predicates:
+                      - Path=/gateway/catalogo-tramos/**
+                  filters:
+                      - RewritePath=/gateway/catalogo-tramos/(?<segment>.*), /api/catalogo-tramos/${segment}
+                - id: ms-rutas
+                  uri: ${server.uri.tramos}
+                  predicates:
+                      - Path=/gateway/rutas/**
+                  filters:
+                      - RewritePath=/gateway/rutas/(?<segment>.*), /api/rutas/${segment}
+                - id: ms-tramos
+                  uri: ${server.uri.tramos}
+                  predicates:
+                      - Path=/gateway/tramos/**
+                  filters:
+                      - RewritePath=/gateway/tramos/(?<segment>.*), /api/tramos/${segment}
+
 server:
-    port: 8082
+    port: ${SERVER_PORT:8082}
     uri:
-        usuarios: http://localhost:8090
+        usuarios: ${USUARIOS_SERVICE_URI:http://localhost:8090}
+        solicitudes: ${SOLICITUDES_SERVICE_URI:http://localhost:8091}
+        contenedores: ${CONTENEDORES_SERVICE_URI:http://localhost:8092}
+        camiones: ${CAMIONES_SERVICE_URI:http://localhost:8093}
+        ubicaciones: ${UBICACIONES_SERVICE_URI:http://localhost:8094}
+        tramos: ${TRAMOS_SERVICE_URI:http://localhost:8095}
 
 logging:
     level:

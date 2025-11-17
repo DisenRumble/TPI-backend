@@ -19,12 +19,17 @@ services:
     container_name: keycloak_tpi
     command:
       - "start-dev"
+      - "--features=preview"
     environment:
       KC_DB: dev-file
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_HOSTNAME: keycloak
+      KC_HOSTNAME_STRICT: "false"
+      KC_FEATURES: preview
+      JAVA_OPTS_APPEND: "-Dkeycloak.profile.feature.scripts=enabled -Dkeycloak.profile.feature.upload_scripts=enabled"
     ports:
-      - "8081:8080"
+      - "8080:8080"
     volumes:
       - ./gatewaywa/gateway/keycloak/realms:/opt/keycloak/data/import
     networks:
@@ -37,7 +42,8 @@ services:
       DB_URL: jdbc:postgresql://postgres:5432/solicitudes_db
       DB_USER: postgres
       DB_PASSWORD: postgres
-      KEYCLOAK_ISSUER_URI: http://host.docker.internal:8081/realms/TPI-Backend
+      KEYCLOAK_ISSUER_URI: http://keycloak:8080/realms/TPI-Backend
+      KEYCLOAK_TOKEN_URI: http://keycloak:8080/realms/TPI-Backend/protocol/openid-connect/token 
     depends_on:
       - postgres
     ports:
@@ -52,7 +58,8 @@ services:
       DB_URL: jdbc:postgresql://postgres:5432/contenedores_db
       DB_USER: postgres
       DB_PASSWORD: postgres
-      KEYCLOAK_ISSUER_URI: http://host.docker.internal:8081/realms/TPI-Backend
+      KEYCLOAK_ISSUER_URI: http://keycloak:8080/realms/TPI-Backend
+      KEYCLOAK_TOKEN_URI: http://keycloak:8080/realms/TPI-Backend/protocol/openid-connect/token 
     depends_on:
       - postgres
     ports:
@@ -67,7 +74,8 @@ services:
       DB_URL: jdbc:postgresql://postgres:5432/camiones_db
       DB_USER: postgres
       DB_PASSWORD: postgres
-      KEYCLOAK_ISSUER_URI: http://host.docker.internal:8081/realms/TPI-Backend
+      KEYCLOAK_ISSUER_URI: http://keycloak:8080/realms/TPI-Backend
+      KEYCLOAK_TOKEN_URI: http://keycloak:8080/realms/TPI-Backend/protocol/openid-connect/token    
     depends_on:
       - postgres
     ports:
@@ -82,7 +90,8 @@ services:
       DB_URL: jdbc:postgresql://postgres:5432/ubicaciones_db
       DB_USER: postgres
       DB_PASSWORD: postgres
-      KEYCLOAK_ISSUER_URI: http://host.docker.internal:8081/realms/TPI-Backend
+      KEYCLOAK_ISSUER_URI: http://keycloak:8080/realms/TPI-Backend
+      KEYCLOAK_TOKEN_URI: http://keycloak:8080/realms/TPI-Backend/protocol/openid-connect/token      
       GOOGLE_MAPS_API_KEY: AIzaSyB3unWtv7t8THWrzQ71vCvlUc79aRZNVRU
     depends_on:
       - postgres
@@ -98,11 +107,36 @@ services:
       DB_URL: jdbc:postgresql://postgres:5432/tramos_db
       DB_USER: postgres
       DB_PASSWORD: postgres
-      KEYCLOAK_ISSUER_URI: http://host.docker.internal:8081/realms/TPI-Backend
+      KEYCLOAK_ISSUER_URI: http://keycloak:8080/realms/TPI-Backend
+      KEYCLOAK_TOKEN_URI: http://keycloak:8080/realms/TPI-Backend/protocol/openid-connect/token    
     depends_on:
       - postgres
     ports:
       - "8095:8095"
+    networks:
+      - tpi-net
+
+  gateway:
+    build:
+      context: ./gatewaywa/gateway
+    environment:
+      KEYCLOAK_ISSUER_URI: http://keycloak:8080/realms/TPI-Backend
+      KEYCLOAK_TOKEN_URI: http://keycloak:8080/realms/TPI-Backend/protocol/openid-connect/token
+      USUARIOS_SERVICE_URI: http://host.docker.internal:8090
+      SOLICITUDES_SERVICE_URI: http://solicitudes-service:8091
+      CONTENEDORES_SERVICE_URI: http://contenedores-service:8092
+      CAMIONES_SERVICE_URI: http://camiones-service:8093
+      UBICACIONES_SERVICE_URI: http://ubicaciones-service:8094
+      TRAMOS_SERVICE_URI: http://tramos-service:8095
+    depends_on:
+      - keycloak
+      - solicitudes-service
+      - contenedores-service
+      - camiones-service
+      - ubicaciones-service
+      - tramos-service
+    ports:
+      - "8082:8082"
     networks:
       - tpi-net
 
