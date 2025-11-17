@@ -2,6 +2,7 @@ package backend.grupo130.solicitudes.controller;
 
 import backend.grupo130.solicitudes.dto.ClienteRequest;
 import backend.grupo130.solicitudes.dto.ClienteResponse;
+import backend.grupo130.solicitudes.dto.RegistroClienteRequest;
 import backend.grupo130.solicitudes.service.ClienteService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -31,5 +32,11 @@ public class ClienteController {
     @ResponseStatus(HttpStatus.CREATED)
     public ClienteResponse crear(@Valid @RequestBody ClienteRequest request) {
         return clienteService.crearOActualizar(request);
+    }
+
+    @PostMapping("/registro")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ClienteResponse registrar(@Valid @RequestBody RegistroClienteRequest request) {
+        return clienteService.registrar(request);
     }
 }

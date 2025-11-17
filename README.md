@@ -97,7 +97,8 @@ Los demas servicios siguen la misma estructura (`services/<nombre-service>`). Aj
 1. **Autenticacion**
    1. Levantar Keycloak desde Docker Compose.
    2. Crear roles Cliente/Operador/Transportista y usuarios de prueba.
-   3. Obtener un JWT valido (Realm `TPI-Backend`).
+   3. Registrar un nuevo cliente/usuario con `POST /gateway/clientes/registro` (ver ejemplo abajo) para demostrar el alta desde la API.
+   4. Obtener un JWT valido (Realm `TPI-Backend`).
 2. **Ubicaciones y catalogos**
    1. `POST /gateway/localidades/provincias` -> guardar `provinciaId`.
    2. `POST /gateway/localidades/ciudades` y `/gateway/localidades/barrios` -> `ciudadId` / `barrioId`.
@@ -126,6 +127,25 @@ Los demas servicios siguen la misma estructura (`services/<nombre-service>`). Aj
    - Cualquier `/gateway/**` sin JWT -> respuesta 401.
 
 Con este flujo se recorre todo el circuito exigido en el enunciado y se demuestra que cada servicio opera detras del gateway.
+
+### Registro de clientes y usuarios via API
+
+- Endpoint: `POST http://localhost:8082/gateway/clientes/registro`
+- Ejemplo de body:
+
+```json
+{
+  "dni": "38111222",
+  "nombre": "Lucia",
+  "apellido": "Gomez",
+  "telefono": "1122334455",
+  "email": "lucia@example.com",
+  "username": "lucia.gomez",
+  "password": "ClaveSegura123"
+}
+```
+
+El servicio crea el usuario en Keycloak (rol `CLIENTE`) y almacena al cliente en `solicitudes-service`, dejando el `usuarioId` listo para futuras solicitudes.
 
 ## Google Maps API Key
 

@@ -16,7 +16,17 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: ${KEYCLOAK_ISSUER_URI:http://localhost:8081/realms/TPI-Backend}
+          issuer-uri: ${KEYCLOAK_ISSUER_URI:http://localhost:8080/realms/TPI-Backend}
+
+keycloak:
+  admin:
+    server-url: ${KEYCLOAK_ADMIN_URL:http://localhost:8080}
+    realm: ${KEYCLOAK_REALM:TPI-Backend}
+    admin-realm: ${KEYCLOAK_ADMIN_REALM:master}
+    client-id: ${KEYCLOAK_ADMIN_CLIENT_ID:admin-cli}
+    username: ${KEYCLOAK_ADMIN_USERNAME:admin}
+    password: ${KEYCLOAK_ADMIN_PASSWORD:admin}
+    client-role: ${KEYCLOAK_CLIENT_ROLE:CLIENTE}
 
 server:
   port: ${SERVER_PORT:8091}

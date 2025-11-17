@@ -2,6 +2,7 @@ package backend.grupo130.solicitudes.service;
 
 import backend.grupo130.solicitudes.dto.ClienteRequest;
 import backend.grupo130.solicitudes.dto.ClienteResponse;
+import backend.grupo130.solicitudes.dto.RegistroClienteRequest;
 import backend.grupo130.solicitudes.entity.Cliente;
 import backend.grupo130.solicitudes.mapper.ClienteMapper;
 import backend.grupo130.solicitudes.repository.ClienteRepository;
@@ -18,12 +19,27 @@ import java.util.UUID;
 public class ClienteService {
 
     private final ClienteRepository clienteRepository;
+    private final KeycloakAdminClient keycloakAdminClient;
 
     public List<ClienteResponse> listar() {
         return clienteRepository.findAll()
             .stream()
             .map(ClienteMapper::toResponse)
             .toList();
+    }
+
+    @Transactional
+    public ClienteResponse registrar(RegistroClienteRequest request) {
+        UUID usuarioId = keycloakAdminClient.registrarUsuarioCliente(request);
+        ClienteRequest clienteRequest = new ClienteRequest(
+            request.dni(),
+            request.nombre(),
+            request.apellido(),
+            request.telefono(),
+            request.email(),
+            usuarioId
+        );
+        return crearOActualizar(clienteRequest);
     }
 
     public ClienteResponse crearOActualizar(ClienteRequest request) {
