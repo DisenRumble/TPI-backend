@@ -1,0 +1,111 @@
+name: tpi-backend
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: tpi_postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - tpi-net
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:21.1.1
+    container_name: keycloak_tpi
+    command:
+      - "start-dev"
+    environment:
+      KC_DB: dev-file
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    ports:
+      - "8081:8080"
+    volumes:
+      - ./gatewaywa/gateway/keycloak/realms:/opt/keycloak/data/import
+    networks:
+      - tpi-net
+
+  solicitudes-service:
+    build:
+      context: ./services/solicitudes-service
+    environment:
+      DB_URL: jdbc:postgresql://postgres:5432/solicitudes_db
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      KEYCLOAK_ISSUER_URI: http://host.docker.internal:8081/realms/TPI-Backend
+    depends_on:
+      - postgres
+    ports:
+      - "8091:8091"
+    networks:
+      - tpi-net
+
+  contenedores-service:
+    build:
+      context: ./services/contenedores-service
+    environment:
+      DB_URL: jdbc:postgresql://postgres:5432/contenedores_db
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      KEYCLOAK_ISSUER_URI: http://host.docker.internal:8081/realms/TPI-Backend
+    depends_on:
+      - postgres
+    ports:
+      - "8092:8092"
+    networks:
+      - tpi-net
+
+  camiones-service:
+    build:
+      context: ./services/camiones-service
+    environment:
+      DB_URL: jdbc:postgresql://postgres:5432/camiones_db
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      KEYCLOAK_ISSUER_URI: http://host.docker.internal:8081/realms/TPI-Backend
+    depends_on:
+      - postgres
+    ports:
+      - "8093:8093"
+    networks:
+      - tpi-net
+
+  ubicaciones-service:
+    build:
+      context: ./services/ubicaciones-service
+    environment:
+      DB_URL: jdbc:postgresql://postgres:5432/ubicaciones_db
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      KEYCLOAK_ISSUER_URI: http://host.docker.internal:8081/realms/TPI-Backend
+      GOOGLE_MAPS_API_KEY: AIzaSyB3unWtv7t8THWrzQ71vCvlUc79aRZNVRU
+    depends_on:
+      - postgres
+    ports:
+      - "8094:8094"
+    networks:
+      - tpi-net
+
+  tramos-service:
+    build:
+      context: ./services/tramos-service
+    environment:
+      DB_URL: jdbc:postgresql://postgres:5432/tramos_db
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      KEYCLOAK_ISSUER_URI: http://host.docker.internal:8081/realms/TPI-Backend
+    depends_on:
+      - postgres
+    ports:
+      - "8095:8095"
+    networks:
+      - tpi-net
+
+networks:
+  tpi-net:
+    driver: bridge

@@ -1,0 +1,14 @@
+backend\grupo130\contenedores\dto\CambioEstadoRequest.class
+backend\grupo130\contenedores\repository\ContenedorRepository.class
+backend\grupo130\contenedores\service\ContenedorService.class
+backend\grupo130\contenedores\entity\EstadoContenedor.class
+backend\grupo130\contenedores\entity\Contenedor.class
+backend\grupo130\contenedores\dto\CrearContenedorRequest.class
+backend\grupo130\contenedores\entity\Contenedor$ContenedorBuilder.class
+backend\grupo130\contenedores\config\RestExceptionHandler.class
+backend\grupo130\contenedores\config\SecurityConfig.class
+backend\grupo130\contenedores\dto\ActualizarContenedorRequest.class
+backend\grupo130\contenedores\mapper\ContenedorMapper.class
+backend\grupo130\contenedores\ContenedoresServiceApplication.class
+backend\grupo130\contenedores\controller\ContenedorController.class
+backend\grupo130\contenedores\dto\ContenedorResponse.class
