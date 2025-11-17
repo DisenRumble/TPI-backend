@@ -37,7 +37,8 @@ services:
       DB_URL: jdbc:postgresql://postgres:5432/solicitudes_db
       DB_USER: postgres
       DB_PASSWORD: postgres
-      KEYCLOAK_ISSUER_URI: http://host.docker.internal:8081/realms/TPI-Backend
+      KEYCLOAK_ISSUER_URI: http://localhost:8081/realms/TPI-Backend
+      KEYCLOAK_JWKS_URI: http://keycloak:8080/realms/TPI-Backend/protocol/openid-connect/certs
     depends_on:
       - postgres
     ports:
@@ -52,7 +53,8 @@ services:
       DB_URL: jdbc:postgresql://postgres:5432/contenedores_db
       DB_USER: postgres
       DB_PASSWORD: postgres
-      KEYCLOAK_ISSUER_URI: http://host.docker.internal:8081/realms/TPI-Backend
+      KEYCLOAK_ISSUER_URI: http://localhost:8081/realms/TPI-Backend
+      KEYCLOAK_JWKS_URI: http://keycloak:8080/realms/TPI-Backend/protocol/openid-connect/certs
     depends_on:
       - postgres
     ports:
@@ -67,7 +69,8 @@ services:
       DB_URL: jdbc:postgresql://postgres:5432/camiones_db
       DB_USER: postgres
       DB_PASSWORD: postgres
-      KEYCLOAK_ISSUER_URI: http://host.docker.internal:8081/realms/TPI-Backend
+      KEYCLOAK_ISSUER_URI: http://localhost:8081/realms/TPI-Backend
+      KEYCLOAK_JWKS_URI: http://keycloak:8080/realms/TPI-Backend/protocol/openid-connect/certs
     depends_on:
       - postgres
     ports:
@@ -82,7 +85,8 @@ services:
       DB_URL: jdbc:postgresql://postgres:5432/ubicaciones_db
       DB_USER: postgres
       DB_PASSWORD: postgres
-      KEYCLOAK_ISSUER_URI: http://host.docker.internal:8081/realms/TPI-Backend
+      KEYCLOAK_ISSUER_URI: http://localhost:8081/realms/TPI-Backend
+      KEYCLOAK_JWKS_URI: http://keycloak:8080/realms/TPI-Backend/protocol/openid-connect/certs
       GOOGLE_MAPS_API_KEY: AIzaSyB3unWtv7t8THWrzQ71vCvlUc79aRZNVRU
     depends_on:
       - postgres
@@ -98,7 +102,8 @@ services:
       DB_URL: jdbc:postgresql://postgres:5432/tramos_db
       DB_USER: postgres
       DB_PASSWORD: postgres
-      KEYCLOAK_ISSUER_URI: http://host.docker.internal:8081/realms/TPI-Backend
+      KEYCLOAK_ISSUER_URI: http://localhost:8081/realms/TPI-Backend
+      KEYCLOAK_JWKS_URI: http://keycloak:8080/realms/TPI-Backend/protocol/openid-connect/certs
     depends_on:
       - postgres
     ports:
