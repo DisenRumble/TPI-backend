@@ -6,7 +6,6 @@ server:
     accesslog:
       enabled: true
       pattern: "%h %l %u %t \"%r\" %s %b %D"
-  # Si hay proxy/gateway delante, conserva cabeceras X-Forwarded-* correctamente
   forward-headers-strategy: framework
 
 spring:
@@ -16,10 +15,8 @@ spring:
     password: usuarios
     hikari:
       data-source-properties:
-        # ✅ Forma correcta en PG JDBC: ejecuta "SET TimeZone='UTC'" al abrir conexión
         options: -c TimeZone=UTC
 
-  # Fuerza todo el stack a UTC (ORM + serialización JSON)
   jpa:
     hibernate:
       ddl-auto: validate
@@ -58,7 +55,7 @@ springdoc:
 logging:
   level:
     root: INFO
-    org.springframework.web: DEBUG            # Mapea handlers y requests
-    org.springframework.security: INFO        # Mensajes de filtros de seguridad
-    org.hibernate.SQL: DEBUG                  # Sentencias SQL
-    org.hibernate.type.descriptor.sql: TRACE  # Parámetros de SQL (MUY verboso)
+    org.springframework.web: DEBUG
+    org.springframework.security: INFO
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql: TRACE

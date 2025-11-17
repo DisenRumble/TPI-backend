@@ -1,4 +1,3 @@
-// backend/grupo73/solicitudes_svc/infrastructure/UsuariosClient.java
 package backend.grupo73.solicitudes_svc.infrastructure;
 
 import backend.grupo73.solicitudes_svc.domain.dto.response.ClienteRes;
@@ -33,15 +32,11 @@ public class UsuariosClient {
         return auth.getToken().getTokenValue();
     }
 
-    /**
-     * Llama a usuarios-svc para "asegurar" el cliente actual:
-     * si no existe lo crea, si existe lo devuelve.
-     */
     public ClienteRes ensureCurrentCliente() {
         return restClient()
                 .post()
                 .uri("/api/clientes/auto-register")
-                .header("Authorization", "Bearer " + getCurrentToken()) // reenvío del JWT
+                .header("Authorization", "Bearer " + getCurrentToken())
                 .retrieve()
                 .body(ClienteRes.class);
     }
@@ -50,7 +45,7 @@ public class UsuariosClient {
         return restClient()
                 .get()
                 .uri("/api/clientes/{id}", clienteId)
-                .header("Authorization", "Bearer " + getCurrentToken()) // reenvío del JWT
+                .header("Authorization", "Bearer " + getCurrentToken())
                 .retrieve()
                 .body(ClienteRes.class);
     }

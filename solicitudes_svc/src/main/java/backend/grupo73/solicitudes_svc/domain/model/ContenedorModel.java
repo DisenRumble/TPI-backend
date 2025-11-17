@@ -33,6 +33,4 @@ public class ContenedorModel {
 
     @Column(name = "ubicacion_actual")
     private String ubicacionActual;
-
-    // getters/setters
 }

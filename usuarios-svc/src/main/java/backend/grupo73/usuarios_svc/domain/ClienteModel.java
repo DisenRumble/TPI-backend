@@ -1,4 +1,3 @@
-// backend/grupo73/usuarios_svc/domain/Cliente.java
 package backend.grupo73.usuarios_svc.domain;
 
 import jakarta.persistence.*;
@@ -35,9 +34,8 @@ public class ClienteModel {
     private String direccion;
 
     @Column(name = "created_at", nullable = false, updatable = false)
-    private Instant createdAt; // no lo inicializamos acá
+    private Instant createdAt;
 
-    /** Setea created_at si viene null antes del INSERT */
     @PrePersist
     void prePersist() {
         if (createdAt == null) {
@@ -45,7 +43,6 @@ public class ClienteModel {
         }
     }
 
-    /** Si más adelante agregás updated_at, lo podés setear acá */
     @PreUpdate
     void preUpdate() {
         // updatedAt = Instant.now();

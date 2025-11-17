@@ -1,4 +1,3 @@
-// backend/grupo73/solicitudes_svc/domain/dto/external/ClienteRes.java
 package backend.grupo73.solicitudes_svc.domain.dto.response;
 
 import java.util.UUID;

@@ -1,14 +1,14 @@
 package backend.grupo73.solicitudes_svc.domain.dto.request;
 
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.UUID;
 
 public record SolicitudCreateReq(
-        UUID clienteId, // si viene null crear cliente en users-svc
+        UUID clienteId,
 
-        @NotBlank
+        @NotNull
         String identificacionUnicaContenedor,
 
         @NotNull
@@ -17,9 +17,11 @@ public record SolicitudCreateReq(
         @NotNull
         BigDecimal volumen,
 
-        @NotBlank
-        String origen,
+        @NotNull
+        UUID origenUbicacionId,
 
-        @NotBlank
-        String destino
+        List<UUID> depositosIntermediosUbicacionIds, // Nuevo campo para depósitos intermedios
+
+        @NotNull
+        UUID destinoUbicacionId
 ) {}

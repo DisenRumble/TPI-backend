@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
         ),
         servers = {
                 @Server(
-                        url = "/solicitudes",      // 👈 contexto correcto de este MS
+                        url = "/solicitudes",
                         description = "Solicitudes Service"
                 )
         }

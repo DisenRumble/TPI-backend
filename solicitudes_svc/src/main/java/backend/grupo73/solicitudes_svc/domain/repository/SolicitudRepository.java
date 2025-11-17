@@ -12,7 +12,9 @@ public interface SolicitudRepository extends JpaRepository<SolicitudModel, UUID>
 
     List<SolicitudModel> findByEstadoNot(EstadoSolicitud estado);
 
-    Optional<SolicitudModel> findByContenedorId(UUID contenedorId);
+    Optional<SolicitudModel> findByContenedorIdAndEstado(UUID contenedorId, EstadoSolicitud estado);
+
+    List<SolicitudModel> findByContenedorId(UUID contenedorId);
 
     Optional<SolicitudModel> findFirstByContenedorIdentificacionUnicaAndEstadoNot(String identificacionUnica, EstadoSolicitud estado);
 }

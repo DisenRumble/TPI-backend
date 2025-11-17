@@ -45,7 +45,6 @@ public class WhoAmIController {
     private static Map<String, Object> toInfo(Authentication auth) {
         Map<String, Object> out = new LinkedHashMap<>();
         out.put("authenticated", auth.isAuthenticated());
-        // Simplificamos la salida de las authorities para que sea una lista de strings
         out.put("authorities", auth.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList()));
@@ -58,7 +57,7 @@ public class WhoAmIController {
             out.put("name", u.getFullName());
             out.put("preferred_username", u.getPreferredUsername());
             out.put("email", u.getEmail());
-            out.put("id_token", u.getIdToken().getTokenValue()); // También mostramos el ID Token
+            out.put("id_token", u.getIdToken().getTokenValue());
             return out;
         }
 
@@ -67,7 +66,7 @@ public class WhoAmIController {
             out.put("sub", jwt.getSubject());
             out.put("issuer", String.valueOf(jwt.getIssuer()));
             out.put("expires_at", String.valueOf(jwt.getExpiresAt()));
-            out.put("access_token", jwt.getTokenValue()); // Si es un JWT, el token es el access token
+            out.put("access_token", jwt.getTokenValue());
             return out;
         }
 

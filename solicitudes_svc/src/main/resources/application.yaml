@@ -63,3 +63,7 @@ logging:
 app:
   usuarios:
     base-url: http://localhost:8083/usuarios
+  rutas:
+    base-url: http://localhost:8080/rutas
+  catalogo:
+    base-url: http://localhost:8085/catalogo

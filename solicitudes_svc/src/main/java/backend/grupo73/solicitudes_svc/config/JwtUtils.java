@@ -1,4 +1,3 @@
-// backend/grupo73/usuarios_svc/config/JwtUtils.java
 package backend.grupo73.solicitudes_svc.config;
 
 import org.springframework.security.core.Authentication;

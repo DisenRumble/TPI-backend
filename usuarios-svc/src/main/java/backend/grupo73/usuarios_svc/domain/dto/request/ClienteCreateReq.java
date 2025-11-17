@@ -12,7 +12,6 @@ public record ClienteCreateReq(
         String direccion
 ) {
     public ClienteCreateReq {
-        // Validaciones y normalización
         if (isBlank(keycloakSub) || isBlank(email) || isBlank(nombre) || isBlank(apellido)) {
             throw new ApiException(ApiError.MISSING_REQUIRED_FIELDS,
                     "keycloakSub, email, nombre y apellido son obligatorios");
@@ -21,7 +20,6 @@ public record ClienteCreateReq(
             throw new ApiException(ApiError.INVALID_EMAIL, "Email inválido");
         }
 
-        // Normalización (trim)
         keycloakSub = keycloakSub.trim();
         email = email.trim();
         nombre = nombre.trim();

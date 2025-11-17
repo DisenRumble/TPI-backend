@@ -40,7 +40,6 @@ public class SecurityConfig {
                         .pathMatchers("/gateway/usuarios/**").hasAnyRole("ADMINISTRADOR", "CLIENTE", "TRANSPORTISTA")
                         .anyExchange().authenticated()
                 )
-                // Simplemente usamos los valores por defecto. Spring recogerá nuestro bean oidcUserService automáticamente.
                 .oauth2Login(Customizer.withDefaults())
                 .oauth2Client(Customizer.withDefaults())
                 .oauth2ResourceServer(rs -> rs.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter())));
@@ -48,7 +47,6 @@ public class SecurityConfig {
         return http.build();
     }
 
-    // Bean para el flujo de Resource Server (cuando se recibe un Bearer Token)
     @Bean
     public ReactiveJwtAuthenticationConverterAdapter jwtAuthenticationConverter() {
         JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
@@ -62,23 +60,19 @@ public class SecurityConfig {
         return new ReactiveJwtAuthenticationConverterAdapter(converter);
     }
 
-    // Bean para el flujo de Login (cuando el usuario inicia sesión en el navegador)
     @Bean
     public ReactiveOAuth2UserService<OidcUserRequest, OidcUser> oidcUserService() {
         final OidcReactiveOAuth2UserService delegate = new OidcReactiveOAuth2UserService();
 
         return (userRequest) -> {
-            // 1. Dejamos que el servicio por defecto cree el usuario
             return delegate.loadUser(userRequest)
                     .flatMap(oidcUser -> {
                         Set<GrantedAuthority> mappedAuthorities = new HashSet<>(oidcUser.getAuthorities());
                         Map<String, Object> claims = oidcUser.getAttributes();
 
-                        // 2. Extraemos los roles de los claims del token
                         mappedAuthorities.addAll(extractRealmRolesFromClaims(claims));
                         mappedAuthorities.addAll(extractClientRolesFromClaims(claims));
 
-                        // 3. Creamos un nuevo usuario con los permisos combinados
                         return Mono.just(new DefaultOidcUser(
                                 mappedAuthorities,
                                 oidcUser.getIdToken(),
@@ -87,8 +81,6 @@ public class SecurityConfig {
                     });
         };
     }
-
-    // --- Métodos de ayuda para extraer roles ---
 
     private List<GrantedAuthority> extractRealmRolesFromClaims(Map<String, Object> claims) {
         Map<String, Object> realmAccess = (Map<String, Object>) claims.get("realm_access");

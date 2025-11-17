@@ -31,11 +31,25 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/swagger", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/depositos", "/camiones", "/tarifas").hasAnyRole("OPERADOR", "ADMINISTRADOR")
-                        .requestMatchers(HttpMethod.PUT, "/depositos/**", "/camiones/**", "/tarifas/**").hasAnyRole("OPERADOR", "ADMINISTRADOR")
-                        .requestMatchers(HttpMethod.GET, "/depositos", "/camiones").hasAnyRole("OPERADOR", "ADMINISTRADOR")
-                        .requestMatchers(HttpMethod.GET, "/tarifas/vigente").permitAll()
+
+                        // Ubicaciones
+                        .requestMatchers(HttpMethod.GET, "/ubicaciones", "/ubicaciones/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/ubicaciones").hasAnyRole("OPERADOR", "ADMINISTRADOR")
+                        .requestMatchers(HttpMethod.PUT, "/ubicaciones/**").hasAnyRole("OPERADOR", "ADMINISTRADOR")
+
+                        // Camiones
+                        .requestMatchers(HttpMethod.GET, "/camiones", "/camiones/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/camiones").hasAnyRole("OPERADOR", "ADMINISTRADOR")
+                        .requestMatchers(HttpMethod.PUT, "/camiones/**").hasAnyRole("OPERADOR", "ADMINISTRADOR")
+
+                        // Tarifas
+                        .requestMatchers(HttpMethod.GET, "/tarifas", "/tarifas/**").permitAll() // All GET /tarifas endpoints
+                        .requestMatchers(HttpMethod.POST, "/tarifas").hasAnyRole("OPERADOR", "ADMINISTRADOR")
+                        .requestMatchers(HttpMethod.PUT, "/tarifas/**").hasAnyRole("OPERADOR", "ADMINISTRADOR")
+
+                        // Validaciones
                         .requestMatchers(HttpMethod.POST, "/validaciones/camion-capacidad").permitAll()
+
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2

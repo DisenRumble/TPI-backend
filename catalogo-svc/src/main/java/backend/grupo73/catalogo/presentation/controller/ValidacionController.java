@@ -1,7 +1,7 @@
 package backend.grupo73.catalogo.presentation.controller;
 
 import backend.grupo73.catalogo.domain.dto.request.ValidacionCapacidadReq;
-import backend.grupo73.catalogo.domain.service.ValidacionService;
+import backend.grupo73.catalogo.domain.service.ValidacionServiceI; // Changed to interface
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class ValidacionController {
 
-    private final ValidacionService validacionService;
+    private final ValidacionServiceI validacionService;
 
     @PostMapping("/camion-capacidad")
     public ResponseEntity<Boolean> validarCapacidad(@RequestBody ValidacionCapacidadReq request) {

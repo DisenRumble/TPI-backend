@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 @Setter
@@ -27,18 +28,42 @@ public class SolicitudModel {
     @JoinColumn(name = "contenedor_id", nullable = false)
     private ContenedorModel contenedor;
 
-    @Column(nullable = false)
-    private String origen;
+    @Column(name = "origen_ubicacion_id", nullable = false)
+    private UUID origenUbicacionId;
 
-    @Column(nullable = false)
-    private String destino;
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "solicitud_depositos_intermedios", joinColumns = @JoinColumn(name = "solicitud_id"))
+    @Column(name = "ubicacion_id")
+    private List<UUID> depositosIntermediosUbicacionIds;
+
+    @Column(name = "destino_ubicacion_id", nullable = false)
+    private UUID destinoUbicacionId;
+    
+    @Column(name = "origen_lat")
+    private Double origenLat;
+    @Column(name = "origen_lng")
+    private Double origenLng;
+    @Column(name = "origen_descripcion")
+    private String origenDescripcion;
+
+    @Column(name = "destino_lat")
+    private Double destinoLat;
+    @Column(name = "destino_lng")
+    private Double destinoLng;
+    @Column(name = "destino_descripcion")
+    private String destinoDescripcion;
+
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private EstadoSolicitud estado;
 
-    @Column(name = "ruta_id")
-    private UUID rutaId;
+    @OneToMany(mappedBy = "solicitud", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OrderBy("orden ASC")
+    private List<TramoEjecucionModel> tramosEjecucion;
+
+    @OneToMany(mappedBy = "solicitud", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private List<EstadiaDepositoModel> estadiasDeposito;
 
     @Column(name = "costo_estimado")
     private BigDecimal costoEstimado;
@@ -68,6 +93,4 @@ public class SolicitudModel {
     void onUpdate() {
         this.updatedAt = Instant.now();
     }
-
-    // getters/setters
 }

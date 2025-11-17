@@ -4,10 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class TarifaCreateReq {
-    private String name;
-    private double precio;
+    private BigDecimal tarifaPorKm;
+    private BigDecimal tarifaPorKgKm;
+    private BigDecimal tarifaEstadiaPorHora;
+    private boolean activa;
 }

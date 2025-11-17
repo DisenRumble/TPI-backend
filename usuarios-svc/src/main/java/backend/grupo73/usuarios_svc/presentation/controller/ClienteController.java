@@ -21,8 +21,6 @@ public class ClienteController {
     private final ClienteRepositoryI repo;
     private final ClienteService clienteService;
 
-    // --- Endpoints para API Interna (consumidos por otros microservicios) ---
-
     @PostMapping("/api/clientes/auto-register")
     public ClienteRes autoRegister(@AuthenticationPrincipal Jwt jwt) {
         String sub = jwt.getSubject();
@@ -36,8 +34,6 @@ public class ClienteController {
     public ClienteRes getClienteById(@PathVariable UUID id) {
         return clienteService.getById(id);
     }
-
-    // --- Endpoints Públicos (consumidos por el frontend) ---
 
     @GetMapping("/clientes/me")
     public ClienteRes me(@AuthenticationPrincipal Jwt jwt) {
