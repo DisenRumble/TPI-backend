@@ -25,85 +25,85 @@ spring:
                   predicates:
                       - Path=/gateway/usuarios/**
                   filters:
-                      - RewritePath=/gateway/usuarios/(?<segment>.*), /api/usuarios/${segment}
+                      - RewritePath=/gateway/usuarios(?<segment>/?.*), /api/usuarios${segment}
                 - id: ms-clientes
                   uri: ${server.uri.solicitudes}
                   predicates:
                       - Path=/gateway/clientes/**
                   filters:
-                      - RewritePath=/gateway/clientes/(?<segment>.*), /api/clientes/${segment}
+                      - RewritePath=/gateway/clientes(?<segment>/?.*), /api/clientes${segment}
                 - id: ms-solicitudes
                   uri: ${server.uri.solicitudes}
                   predicates:
                       - Path=/gateway/solicitudes/**
                   filters:
-                      - RewritePath=/gateway/solicitudes/(?<segment>.*), /api/solicitudes/${segment}
+                      - RewritePath=/gateway/solicitudes(?<segment>/?.*), /api/solicitudes${segment}
                 - id: ms-tarifas
                   uri: ${server.uri.solicitudes}
                   predicates:
                       - Path=/gateway/tarifas/**
                   filters:
-                      - RewritePath=/gateway/tarifas/(?<segment>.*), /api/tarifas/${segment}
+                      - RewritePath=/gateway/tarifas(?<segment>/?.*), /api/tarifas${segment}
                 - id: ms-contenedores
                   uri: ${server.uri.contenedores}
                   predicates:
                       - Path=/gateway/contenedores/**
                   filters:
-                      - RewritePath=/gateway/contenedores/(?<segment>.*), /api/contenedores/${segment}
+                      - RewritePath=/gateway/contenedores(?<segment>/?.*), /api/contenedores${segment}
                 - id: ms-transportistas
                   uri: ${server.uri.camiones}
                   predicates:
                       - Path=/gateway/transportistas/**
                   filters:
-                      - RewritePath=/gateway/transportistas/(?<segment>.*), /api/transportistas/${segment}
+                      - RewritePath=/gateway/transportistas(?<segment>/?.*), /api/transportistas${segment}
                 - id: ms-camiones
                   uri: ${server.uri.camiones}
                   predicates:
                       - Path=/gateway/camiones/**
                   filters:
-                      - RewritePath=/gateway/camiones/(?<segment>.*), /api/camiones/${segment}
+                      - RewritePath=/gateway/camiones(?<segment>/?.*), /api/camiones${segment}
                 - id: ms-ubicaciones
                   uri: ${server.uri.ubicaciones}
                   predicates:
                       - Path=/gateway/ubicaciones/**
                   filters:
-                      - RewritePath=/gateway/ubicaciones/(?<segment>.*), /api/ubicaciones/${segment}
+                      - RewritePath=/gateway/ubicaciones(?<segment>/?.*), /api/ubicaciones${segment}
                 - id: ms-localidades
                   uri: ${server.uri.ubicaciones}
                   predicates:
                       - Path=/gateway/localidades/**
                   filters:
-                      - RewritePath=/gateway/localidades/(?<segment>.*), /api/localidades/${segment}
+                      - RewritePath=/gateway/localidades(?<segment>/?.*), /api/localidades${segment}
                 - id: ms-geografia
                   uri: ${server.uri.ubicaciones}
                   predicates:
                       - Path=/gateway/geografia/**
                   filters:
-                      - RewritePath=/gateway/geografia/(?<segment>.*), /api/geografia/${segment}
+                      - RewritePath=/gateway/geografia(?<segment>/?.*), /api/geografia${segment}
                 - id: ms-depositos
                   uri: ${server.uri.ubicaciones}
                   predicates:
                       - Path=/gateway/depositos/**
                   filters:
-                      - RewritePath=/gateway/depositos/(?<segment>.*), /api/depositos/${segment}
+                      - RewritePath=/gateway/depositos(?<segment>/?.*), /api/depositos${segment}
                 - id: ms-catalogo-tramos
                   uri: ${server.uri.tramos}
                   predicates:
                       - Path=/gateway/catalogo-tramos/**
                   filters:
-                      - RewritePath=/gateway/catalogo-tramos/(?<segment>.*), /api/catalogo-tramos/${segment}
+                      - RewritePath=/gateway/catalogo-tramos(?<segment>/?.*), /api/catalogo-tramos${segment}
                 - id: ms-rutas
                   uri: ${server.uri.tramos}
                   predicates:
                       - Path=/gateway/rutas/**
                   filters:
-                      - RewritePath=/gateway/rutas/(?<segment>.*), /api/rutas/${segment}
+                      - RewritePath=/gateway/rutas(?<segment>/?.*), /api/rutas${segment}
                 - id: ms-tramos
                   uri: ${server.uri.tramos}
                   predicates:
                       - Path=/gateway/tramos/**
                   filters:
-                      - RewritePath=/gateway/tramos/(?<segment>.*), /api/tramos/${segment}
+                      - RewritePath=/gateway/tramos(?<segment>/?.*), /api/tramos${segment}
 
 server:
     port: ${SERVER_PORT:8082}
